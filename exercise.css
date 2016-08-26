@@ -1,0 +1,96 @@
+body,html { height: 100%; }
+
+#questContainer {
+	float: left;
+	width: 30%;
+	height: 100%;
+}
+
+#input {
+	display: block;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	margin: 1em;
+}
+
+#quest {
+	display: inline-block;
+	border: red 0.1ex solid;
+	font-size: 10em;
+	margin: 1rem;
+	padding: 0.5rem 1rem;
+	line-height: 1em;
+}
+
+/*
+#quest:after {
+	display: block;
+	font-size: 2rem;
+	content: attr(title);
+	line-height: 1em;
+}
+*/
+
+#hint {
+	display: block;
+	font-size: 2em;
+	margin: 1ex;
+	padding: 0.3em;
+	font-weight: 700;
+}
+
+#visual {
+	margin: 1ex;
+	padding: 0.3em;
+	display: block;
+	width: 10em;
+	border: outset 1px;
+	font-size: 2em;
+	background-color: #00FF00;
+}
+
+
+.character {
+	display: none;
+}
+
+/*
+#characterUse {
+	position: absolute;
+	display: block;
+	right: 0;
+	top: 0;
+	margin: 3em;
+	width: 30%;
+	white-space: normal;
+}
+*/
+
+.characterUse {
+	white-space: normal;
+	display: block;
+	margin: auto;
+	font-size: 1.2em;
+}
+
+#characterHead {
+	text-align: center;
+}
+
+#characterContainer {
+	float: left;
+	height: 100%;
+	width: 30%;
+}
+
+#respond {
+	width: 1px;
+}
+
+#middleContainer {
+	float: left;
+	width: 30%;
+	height: 100%;
+	overflow: auto;
+}
