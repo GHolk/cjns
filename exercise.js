@@ -68,13 +68,11 @@ respondWindow.say = function(sentence,type){
 	var paragraph = document.createElement('p');
 	paragraph.textContent = sentence;
 	paragraph.className = type || '';
-	this.appendChild(paragraph);
-	this.scrollTop += paragraph.offsetHeight*2;
+	this.insertBefore(paragraph, this.firstChild);
 };
 
 respondWindow.show = function(node){
-	this.appendChild(node);
-	this.scrollTop += node.offsetHeight*2;
+	this.insertBefore(node, this.firstChild);
 };
 
 
@@ -212,46 +210,64 @@ var respondRobot = {
 	current: undefined,
 	cumulateTimes: 0,
 	doCumulate: function(){
-
-		switch(this.current){
-		case 0: 
-			if(this.cumulateTimes >= 0) this.cumulateTimes++;
-			else this.cumulateTimes = 0;
-		break;
-
-		case 1: 
-		case 2:
-			if(this.cumulateTimes <= 0) this.cumulateTimes--;
-			else this.cumulateTimes = 0;
-		break
+/*
+		if(this.cumulateTimes >= 0) {
+			if(this.current === 0) this.cumulateTimes++;
+			else {
+				if(this.cumulateTimes >= 5)
+					respondWindow.say('啊，錯了？','bad');
+				this.cumulateTimes = 0;
+			}
+		} else {
+			if(this.current > 0) this.cumulateTimes--;
+			else {
+				if(this.cumulateTimes >= 5)
+					respondWindow.say("耶！對了！",'good');
+				this.cumulateTimes = 0;
+			}
 		}
+*/
+		if(this.current === 0)
+			if(this.cumulateTimes >= 0) this.cumulateTimes++;
+			else {
+				if(this.cumulateTimes <= -3) 
+					respondWindow.say("耶！對了！",'good');
+				this.cumulateTimes = 0;
+			}
+
+		else
+			if(this.cumulateTimes <= 0) this.cumulateTimes--;
+			else {
+				if(this.cumulateTimes >= 5)
+					respondWindow.say("啊，錯了？",'bad');
+				this.cumulateTimes = 0;
+			}
 	},
 
 	cumulateRespond: function(){
 
-		var paragraph = document.createElement('p');
+		var sentence, point;
 
-		if(this.current === 0) {
-			paragraph.textContent = '正確。';
-			paragraph.className = 'good';
-		} else {
-			paragraph.textContent = '錯。';
-			paragraph.className = 'bad';
+		if(this.cumulateTimes > 0) {
+			sentence = '正確。';
+			point = 'good';
+		} else if(this.cumulateTimes < 0){
+			sentence = '錯。';
+			point = 'bad';
 		}
 
 		switch(this.cumulateTimes){
-		case 0:
-			if(this.current === 0) paragraph.textContent = '耶，對了！';
-			else if (this.current > 0) paragraph.textContent = '啊？錯了？';
+		case 3: sentence = '不錯喔！'; 
 		break;
-
-		case 3: paragraph.textContent = '不錯喔！'; break;
-		case 5: paragraph.textContent = '欸唷，這個屌！'; break;
-		case -2: paragraph.textContent = '又錯了。'; break;
-		case -3: paragraph.textContent = '還是錯……'; break;
+		case 5: sentence = '欸唷，這個屌！'; 
+		break;
+		case -2: sentence = '又錯了。'; 
+		break;
+		case -3: sentence = '還是錯……'; 
+		break;
 		}
 
-		respondWindow.show(paragraph);
+		respondWindow.say(sentence,point);
 	},
 
 	inputRespond: function(state){
