@@ -64,6 +64,14 @@ var characterTable;
 
 var respondWindow = document.getElementById('respond');
 
+respondWindow.say = function(sentence,type){
+	var paragraph = document.createElement('p');
+	paragraph.textContent = sentence;
+	paragraph.className = type || '';
+	this.appendChild(paragraph);
+	this.scrollTop += paragraph.offsetHeight;
+};
+
 respondWindow.nextStageRespondText = function(tableId){
 
 	var nextStageParagraph = document.createElement('em');
@@ -118,7 +126,7 @@ respondWindow.showRespond = function (type){
 		break;
 	}
 	this.appendChild(respondParagraph);
-	this.scrollBy(0,9999);
+	this.scrollTop += respondParagraph.offsetHeight;
 };
 
 
@@ -192,21 +200,35 @@ visualBar.verifyCharacter = function(){
 	}
 };
 
-inputBar.addEventListener("input", function(){
+inputBar.oninput = function(){
 
-	var lastAlphabet = inputBar.value.charAt(inputBar.value.length - 1);
-	var elseAlphabet = inputBar.value.substr(0,inputBar.value.length - 1);
+	var lastAlphabet = this.value.charAt(this.value.length - 1);
+	var elseAlphabet = 
+		this.value.substr(0,this.value.length - 1) || '';
 
-	if(lastAlphabet === ' ') {
-		inputBar.value = '';
+	if(this.value.charAt(0) == ':'){
+		if( this.value.substr(-2) === '  '){
+			respondWindow.say(elseAlphabet.substr(1))
+			this.value = '';
+		}
+
+	} else if(lastAlphabet === ' ') {
+		this.value = '';
 		visualBar.textContent = characterTable[elseAlphabet] || '_';
 		if( visualBar.verifyCharacter() ) questCharacter.nextCharacter();
 		else hintBar.hintCharacter();
 
-	} else
-		visualBar.generateCharacter(elseAlphabet + lastAlphabet);
+	} else 
+		visualBar.generateCharacter(this.value);
 
-});
+};
+
+
+var fontPx = document.getElementById('fontPx');
+
+fontPx.onchange = function(){
+	document.body.style.fontSize = this.value + 'pt';
+}
 
 function init(){
 	tabler.setTable();
@@ -220,7 +242,7 @@ function init(){
 	//respondWindow.respondWelcome(tabler.currentId);
 }
 
-window.addEventListener("hashchange",init);
+window.onhashchange = init;
 
 init();
 

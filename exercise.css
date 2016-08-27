@@ -1,5 +1,6 @@
 body,html { height: 98%; }
 
+
 #questContainer {
 	float: left;
 	width: 40%;
@@ -8,7 +9,7 @@ body,html { height: 98%; }
 
 #input {
 	display: block;
-	position: absolute;
+	position: fixed;
 	right: 0;
 	bottom: 0;
 }
@@ -18,18 +19,9 @@ body,html { height: 98%; }
 	border: red 0.1ex solid;
 	font-size: 10em;
 	margin: 0.1em auto 0 auto;
-	width: 1em;
+	width: 50%;
 	line-height: 1.1em;
 }
-
-/*
-#quest:after {
-	display: block;
-	font-size: 2rem;
-	content: attr(title);
-	line-height: 1em;
-}
-*/
 
 #hint {
 	display: block;
@@ -57,7 +49,7 @@ body,html { height: 98%; }
 	white-space: normal;
 	display: block;
 	margin: auto;
-	font-size: 1.2em;
+	font-size: 0.9em;
 	width: 80%;
 }
 
@@ -96,4 +88,5 @@ body,html { height: 98%; }
 .good { color: green; }
 .bad { color: red; }
 .iron { color: blue; }
+
 
