@@ -53,23 +53,12 @@ body,html { height: 98%; }
 	display: none;
 }
 
-/*
-#characterUse {
-	position: absolute;
-	display: block;
-	right: 0;
-	top: 0;
-	margin: 3em;
-	width: 30%;
-	white-space: normal;
-}
-*/
-
 .characterUse {
 	white-space: normal;
 	display: block;
 	margin: auto;
 	font-size: 1.2em;
+	width: 80%;
 }
 
 #characterHead {

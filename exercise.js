@@ -37,13 +37,19 @@ var alphabetTable = { a:'日', b:'月', c:'金', d:'木', e:'水', f:'火', g:'�
 
 function createTabler(hash){
 
-	if(hash) this.currentId = Number(hash.substr(1));
-	else this.currentId = 0;
+	this.currentId = Math.abs(Math.floor(
+		Number(hash.substr(1))
+	)%32) || 0;
 
 	this.setTable = function(){
 
 		var allCharacterTable = document.getElementsByClassName('character');
-		this.currentId = Number(window.location.hash.substr(1));
+
+		this.currentId = Math.abs(
+			Math.floor(
+				Number(window.location.hash.substr(1))
+			)%32
+		) || 0;
 
 		for (var i=0, l=allCharacterTable.length; i<l; i++)
 			allCharacterTable[i].className = 'character';
