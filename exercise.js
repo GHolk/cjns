@@ -72,7 +72,7 @@ respondWindow.say = function(sentence,type){
 };
 
 respondWindow.show = function(node){
-	this.insertBefore(node, this.firstChild);
+	node && this.insertBefore(node, this.firstChild);
 };
 
 
@@ -201,6 +201,7 @@ visualBar.verifyCharacter = function(){
 	default:
 		respondRobot.inputRespond(1);
 		return false;
+		break;
 	}
 };
 
@@ -210,53 +211,38 @@ var respondRobot = {
 	current: undefined,
 	cumulateTimes: 0,
 	doCumulate: function(){
-/*
-		if(this.cumulateTimes >= 0) {
-			if(this.current === 0) this.cumulateTimes++;
+		var current = this.current, cumulateTimes = this.cumulateTimes;
+
+		if(current === 0){
+			if(cumulateTimes >= 0) this.cumulateTimes++;
 			else {
-				if(this.cumulateTimes >= 5)
-					respondWindow.say('啊，錯了？','bad');
+				if(cumulateTimes <= -3) respondWindow.say("耶！對了！",'good');
+				else respondWindow.say("對。",'good');
 				this.cumulateTimes = 0;
 			}
 		} else {
-			if(this.current > 0) this.cumulateTimes--;
+			if(cumulateTimes <= 0) this.cumulateTimes--;
 			else {
-				if(this.cumulateTimes >= 5)
-					respondWindow.say("耶！對了！",'good');
+				if(cumulateTimes >= 5) respondWindow.say("啊，錯了？",'bad');
+				else respondWindow.say("錯了。",'bad');
 				this.cumulateTimes = 0;
 			}
 		}
-*/
-		if(this.current === 0)
-			if(this.cumulateTimes >= 0) this.cumulateTimes++;
-			else {
-				if(this.cumulateTimes <= -3) 
-					respondWindow.say("耶！對了！",'good');
-				this.cumulateTimes = 0;
-			}
-
-		else
-			if(this.cumulateTimes <= 0) this.cumulateTimes--;
-			else {
-				if(this.cumulateTimes >= 5)
-					respondWindow.say("啊，錯了？",'bad');
-				this.cumulateTimes = 0;
-			}
 	},
 
 	cumulateRespond: function(){
 
-		var sentence, point;
+		var sentence, point, cumulateTimes = this.cumulateTimes;
 
-		if(this.cumulateTimes > 0) {
-			sentence = '正確。';
+		if(cumulateTimes > 0) {
+			sentence = '對！';
 			point = 'good';
-		} else if(this.cumulateTimes < 0){
+		} else if(cumulateTimes < 0){
 			sentence = '錯。';
 			point = 'bad';
 		}
 
-		switch(this.cumulateTimes){
+		switch(cumulateTimes){
 		case 3: sentence = '不錯喔！'; 
 		break;
 		case 5: sentence = '欸唷，這個屌！'; 
@@ -280,8 +266,9 @@ var respondRobot = {
 		var material = document.getElementById('respondMaterial');
 		respondWindow.show(material.firstChild);
 		setTimeout(
-			"respondRobot.hintRespond(" + second + ");",
-			second*2*Math.random()
+			respondRobot.hintRespond,
+			second*1.5*Math.random(),
+			second
 		);
 	},
 };
@@ -325,7 +312,7 @@ function init(){
 	hintBar.newHintState();
 	inputBar.focus();
 	inputBar.select();
-	setTimeout("respondRobot.hintRespond(60000);",Math.random()*60000)
+	setTimeout(respondRobot.hintRespond, Math.random()*6000, 6000)
 }
 
 window.onhashchange = init;

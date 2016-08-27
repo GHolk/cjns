@@ -90,6 +90,7 @@ body,html { height: 98%; }
 .iron { color: blue; }
 
 #fontPx > * { display: inline ; }
+#fontPx { border: solid 1px; }
 
 #respondMaterial {
 	display: none;
