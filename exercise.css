@@ -1,5 +1,8 @@
 body,html { height: 98%; }
 
+.character, #respondMaterial, #nextStage {
+	display: none;
+}
 
 #questContainer {
 	float: left;
@@ -40,10 +43,6 @@ body,html { height: 98%; }
 	background-color: #00FF00;
 }
 
-
-.character {
-	display: none;
-}
 
 .characterUse {
 	white-space: normal;
@@ -87,11 +86,12 @@ body,html { height: 98%; }
 
 .good { color: green; }
 .bad { color: red; }
-.iron { color: blue; }
+.gm { color: blue; }
+a, a:visited { color: purple; }
 
 #fontPx > * { display: inline ; }
-#fontPx { border: solid 1px; }
-
-#respondMaterial {
-	display: none;
+#fontPx { 
+	border: solid 1px; 
+	margin: 1ex;
+	text-align: center;
 }

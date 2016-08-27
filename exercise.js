@@ -66,73 +66,14 @@ var respondWindow = document.getElementById('respond');
 
 respondWindow.say = function(sentence,type){
 	var paragraph = document.createElement('p');
-	paragraph.textContent = sentence;
+	paragraph.textContent = sentence || '';
 	paragraph.className = type || '';
 	this.insertBefore(paragraph, this.firstChild);
 };
 
 respondWindow.show = function(node){
-	node && this.insertBefore(node, this.firstChild);
+	return node && this.insertBefore(node, this.firstChild);
 };
-
-
-respondWindow.nextStageRespondText = function(tableId){
-
-	var nextStageParagraph = document.createElement('em');
-
-	if(tableId == 31) 
-		nextStageParagraph.textContent = 
-			'恭喜，你已經完成常用共 4808 字的練習了！';
-
-	else {
-		nextStageParagraph.textContent = 
-			'恭喜你完成本字庫。這是第 ' + tableId + ' 個字庫，還有 ' +
-			(31 - tableId) + ' 個字庫等著你。';
-
-		var nextStageAnchor = document.createElement('a');
-		nextStageAnchor.href = '#' + (tableId + 1);
-		nextStageAnchor.textContent = 
-			'歡迎挑戰第 ' + (tableId + 1) + ' 個字庫。';
-
-		nextStageParagraph.appendChild(nextStageAnchor);
-	}
-
-	return nextStageParagraph;
-
-};
-
-respondWindow.showRespond = function (type){
-	var respondParagraph = document.createElement('p');
-
-	switch(type) {
-
-	case 't':
-		respondParagraph.textContent = '正確'
-		respondParagraph.className = 'good';
-		break;
-
-	case 'f':
-		respondParagraph.textContent = '不對喔';
-		respondParagraph.className = 'bad';
-		break;
-
-	case 'n':
-		respondParagraph.textContent = '目前的字庫沒有這個字。';
-		respondParagraph.className = 'iron';
-		break;
-
-	case 'c':
-		respondParagraph.textContent = '恭喜完成了一個字庫！';
-		respondParagraph.className = 'good';
-		respondParagraph.appendChild(
-			this.nextStageRespondText(tabler.currentId)
-		);
-		break;
-	}
-	this.appendChild(respondParagraph);
-	this.scrollTop += respondParagraph.offsetHeight + 10;
-};
-
 
 
 var visualBar = document.getElementById('visual');
@@ -167,7 +108,7 @@ questCharacter.nextCharacter = function(){
 		characterTable.getCharacterAndAlphabet(this.title) ;
 
 	if(!characterAndAlphabet){ 
-		respondWindow.showRespond('c');
+		respondRobot.endStage();
 		return false;
 	}
 
@@ -230,6 +171,10 @@ var respondRobot = {
 		}
 	},
 
+	tableIntro: function(){
+		
+	},
+
 	cumulateRespond: function(){
 
 		var sentence, point, cumulateTimes = this.cumulateTimes;
@@ -253,7 +198,7 @@ var respondRobot = {
 		break;
 		}
 
-		respondWindow.say(sentence,point);
+		sentence && respondWindow.say(sentence,point);
 	},
 
 	inputRespond: function(state){
@@ -262,14 +207,46 @@ var respondRobot = {
 		this.cumulateRespond();
 	},
 
-	hintRespond: function(second){
-		var material = document.getElementById('respondMaterial');
-		respondWindow.show(material.firstChild);
-		setTimeout(
-			respondRobot.hintRespond,
-			second*1.5*Math.random(),
-			second
-		);
+	hintRespond: function(){
+		var paragraph = 
+			document.getElementById('respondMaterial').children[0] || 
+			false ;
+		paragraph.className = 'gm';
+
+		if( paragraph && respondWindow.show(paragraph) ){
+
+			var waitTime = respondRobot.hintRespond.waitTime ;
+
+			waitTime = waitTime || 60000;
+			waitTime += 30000*(1+Math.random())
+
+			setTimeout(respondRobot.hintRespond, waitTime);
+			respondRobot.hintRespond.waitTime = waitTime;
+		}
+	},
+
+	endStage: function(){
+		var currentStage = tabler.currentId,
+			paragraph = 
+				document.getElementById(
+					'nextStage'
+				).children[0].cloneNode(true);
+
+		paragraph.className = 'gm';
+
+		var text = paragraph.firstChild.nodeValue;
+		text = text.replace('tableId',currentStage);
+		text = text.replace('leftTable',31-currentStage);
+		paragraph.firstChild.nodeValue = text;
+
+		var anchor = paragraph.children[0];
+		anchor.href = '#' + (currentStage + 1) ;
+
+		var text = anchor.textContent;
+		text = text.replace('nextTableId',currentStage+1);
+		anchor.textContent = text;
+
+		respondWindow.show(paragraph);
 	},
 };
 
@@ -309,10 +286,11 @@ function init(){
 		new mapCharacterTable(document.getElementById(tabler.currentId));
 	if(!characterTable[questCharacter.title])
 		questCharacter.nextCharacter();
+	//respondRobot.tableIntro();
 	hintBar.newHintState();
+	setTimeout(respondRobot.hintRespond, (1+Math.random())*30000)
 	inputBar.focus();
 	inputBar.select();
-	setTimeout(respondRobot.hintRespond, Math.random()*6000, 6000)
 }
 
 window.onhashchange = init;
