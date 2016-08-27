@@ -1,8 +1,8 @@
-body,html { height: 100%; }
+body,html { height: 98%; }
 
 #questContainer {
 	float: left;
-	width: 30%;
+	width: 40%;
 	height: 100%;
 }
 
@@ -11,16 +11,15 @@ body,html { height: 100%; }
 	position: absolute;
 	right: 0;
 	bottom: 0;
-	margin: 1em;
 }
 
 #quest {
-	display: inline-block;
+	text-align: center;
 	border: red 0.1ex solid;
 	font-size: 10em;
-	margin: 1rem;
-	padding: 0.5rem 1rem;
-	line-height: 1em;
+	margin: 0.1em auto 0 auto;
+	width: 1em;
+	line-height: 1.1em;
 }
 
 /*
@@ -41,10 +40,9 @@ body,html { height: 100%; }
 }
 
 #visual {
-	margin: 1ex;
+	margin: 0 1ex;
 	padding: 0.3em;
 	display: block;
-	width: 10em;
 	border: outset 1px;
 	font-size: 2em;
 	background-color: #00FF00;
@@ -85,12 +83,28 @@ body,html { height: 100%; }
 }
 
 #respond {
-	width: 1px;
+	padding: 0.5ex;
+	margin-top: 1ex;
+	border: 1px solid;
+	background-color: #DDD;
+	overflow-y: scroll;
+	height: 60%;
+	width: 80%;
+	word-wrap: break-word;
+	hyphens: auto;
+}
+
+#respond p {
+	margin: 0.1ex 0 0.1ex 0;
 }
 
 #middleContainer {
 	float: left;
 	width: 30%;
 	height: 100%;
-	overflow: auto;
 }
+
+.good { color: green; }
+.bad { color: red; }
+.iron { color: blue; }
+

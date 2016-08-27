@@ -49,7 +49,6 @@ function createTabler(hash){
 			allCharacterTable[i].className = 'character';
 
 		allCharacterTable[this.currentId].className += ' characterUse';
-		return new mapCharacterTable(allCharacterTable[this.currentId]);
 	};
 }
 
@@ -61,7 +60,7 @@ var respondWindow = document.getElementById('respond');
 
 respondWindow.nextStageRespondText = function(tableId){
 
-	var nextStageParagraph = document.createElement('p');
+	var nextStageParagraph = document.createElement('em');
 
 	if(tableId == 31) 
 		nextStageParagraph.textContent = 
@@ -85,31 +84,35 @@ respondWindow.nextStageRespondText = function(tableId){
 };
 
 respondWindow.showRespond = function (type){
+	var respondParagraph = document.createElement('p');
+
 	switch(type) {
 
 	case 't':
-		this.textContent = '正確'
-		return true;
+		respondParagraph.textContent = '正確'
+		respondParagraph.className = 'good';
 		break;
 
 	case 'f':
-		this.textContent = '不對喔';
-		return false;
+		respondParagraph.textContent = '不對喔';
+		respondParagraph.className = 'bad';
 		break;
 
 	case 'n':
-		this.textContent = '目前的字庫沒有這個字。';
-		return false;
+		respondParagraph.textContent = '目前的字庫沒有這個字。';
+		respondParagraph.className = 'iron';
 		break;
 
 	case 'c':
-		this.textContent = '恭喜完成了一個字庫！';
-		this.parentElement.appendChild(
+		respondParagraph.textContent = '恭喜完成了一個字庫！';
+		respondParagraph.className = 'good';
+		respondParagraph.appendChild(
 			this.nextStageRespondText(tabler.currentId)
 		);
-		return true;
 		break;
 	}
+	this.appendChild(respondParagraph);
+	this.scrollBy(0,9999);
 };
 
 
@@ -145,7 +148,10 @@ questCharacter.nextCharacter = function(){
 	var characterAndAlphabet = 
 		characterTable.getCharacterAndAlphabet(this.title) ;
 
-	if(!characterAndAlphabet) return respondWindow.showRespond('c');
+	if(!characterAndAlphabet){ 
+		respondWindow.showRespond('c');
+		return false;
+	}
 
 	this.textContent = characterAndAlphabet[0];
 	this.title = characterAndAlphabet[1];
@@ -167,13 +173,16 @@ visualBar.generateCharacter = function (allAlphabet){
 visualBar.verifyCharacter = function(){
 	switch(this.textContent){
 	case'_':
-		return respondWindow.showRespond('n');
+		respondWindow.showRespond('n');
+		return false;
 		break;
 	case questCharacter.textContent:
-		return respondWindow.showRespond('t');
+		respondWindow.showRespond('t');
+		return true;
 		break;
 	default:
-		return respondWindow.showRespond('f');
+		respondWindow.showRespond('f');
+		return false;
 	}
 };
 
@@ -194,8 +203,9 @@ inputBar.addEventListener("input", function(){
 });
 
 function init(){
-
-	characterTable = tabler.setTable();
+	tabler.setTable();
+	characterTable = 
+		new mapCharacterTable(document.getElementById(tabler.currentId));
 	if(!characterTable[questCharacter.title])
 		questCharacter.nextCharacter();
 	hintBar.newHintState();
