@@ -69,8 +69,14 @@ respondWindow.say = function(sentence,type){
 	paragraph.textContent = sentence;
 	paragraph.className = type || '';
 	this.appendChild(paragraph);
-	this.scrollTop += paragraph.offsetHeight;
+	this.scrollTop += paragraph.offsetHeight*2;
 };
+
+respondWindow.show = function(node){
+	this.appendChild(node);
+	this.scrollTop += node.offsetHeight*2;
+};
+
 
 respondWindow.nextStageRespondText = function(tableId){
 
@@ -126,7 +132,7 @@ respondWindow.showRespond = function (type){
 		break;
 	}
 	this.appendChild(respondParagraph);
-	this.scrollTop += respondParagraph.offsetHeight;
+	this.scrollTop += respondParagraph.offsetHeight + 10;
 };
 
 
@@ -187,17 +193,81 @@ visualBar.generateCharacter = function (allAlphabet){
 visualBar.verifyCharacter = function(){
 	switch(this.textContent){
 	case'_':
-		respondWindow.showRespond('n');
+		respondRobot.inputRespond(2);
 		return false;
 		break;
 	case questCharacter.textContent:
-		respondWindow.showRespond('t');
+		respondRobot.inputRespond(0);
 		return true;
 		break;
 	default:
-		respondWindow.showRespond('f');
+		respondRobot.inputRespond(1);
 		return false;
 	}
+};
+
+var respondRobot = {
+
+// 幫我撐十秒！
+	current: undefined,
+	cumulateTimes: 0,
+	doCumulate: function(){
+
+		switch(this.current){
+		case 0: 
+			if(this.cumulateTimes >= 0) this.cumulateTimes++;
+			else this.cumulateTimes = 0;
+		break;
+
+		case 1: 
+		case 2:
+			if(this.cumulateTimes <= 0) this.cumulateTimes--;
+			else this.cumulateTimes = 0;
+		break
+		}
+	},
+
+	cumulateRespond: function(){
+
+		var paragraph = document.createElement('p');
+
+		if(this.current === 0) {
+			paragraph.textContent = '正確。';
+			paragraph.className = 'good';
+		} else {
+			paragraph.textContent = '錯。';
+			paragraph.className = 'bad';
+		}
+
+		switch(this.cumulateTimes){
+		case 0:
+			if(this.current === 0) paragraph.textContent = '耶，對了！';
+			else if (this.current > 0) paragraph.textContent = '啊？錯了？';
+		break;
+
+		case 3: paragraph.textContent = '不錯喔！'; break;
+		case 5: paragraph.textContent = '欸唷，這個屌！'; break;
+		case -2: paragraph.textContent = '又錯了。'; break;
+		case -3: paragraph.textContent = '還是錯……'; break;
+		}
+
+		respondWindow.show(paragraph);
+	},
+
+	inputRespond: function(state){
+		this.current = state;
+		this.doCumulate();
+		this.cumulateRespond();
+	},
+
+	hintRespond: function(second){
+		var material = document.getElementById('respondMaterial');
+		respondWindow.show(material.firstChild);
+		setTimeout(
+			"respondRobot.hintRespond(" + second + ");",
+			second*2*Math.random()
+		);
+	},
 };
 
 inputBar.oninput = function(){
@@ -224,7 +294,7 @@ inputBar.oninput = function(){
 };
 
 
-var fontPx = document.getElementById('fontPx');
+var fontPx = document.getElementById('fontPx').children[1];
 
 fontPx.onchange = function(){
 	document.body.style.fontSize = this.value + 'pt';
@@ -239,7 +309,7 @@ function init(){
 	hintBar.newHintState();
 	inputBar.focus();
 	inputBar.select();
-	//respondWindow.respondWelcome(tabler.currentId);
+	setTimeout("respondRobot.hintRespond(60000);",Math.random()*60000)
 }
 
 window.onhashchange = init;

@@ -49,7 +49,7 @@ body,html { height: 98%; }
 	white-space: normal;
 	display: block;
 	margin: auto;
-	font-size: 0.9em;
+	font-size: 0.8em;
 	width: 80%;
 }
 
@@ -89,4 +89,8 @@ body,html { height: 98%; }
 .bad { color: red; }
 .iron { color: blue; }
 
+#fontPx > * { display: inline ; }
 
+#respondMaterial {
+	display: none;
+}
