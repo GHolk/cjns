@@ -65,14 +65,28 @@ var characterTable;
 var respondWindow = document.getElementById('respond');
 
 respondWindow.say = function(sentence,type){
+	if(!sentence) return false;
+
 	var paragraph = document.createElement('p');
-	paragraph.textContent = sentence || '';
+	paragraph.textContent = sentence ;
 	paragraph.className = type || '';
-	this.insertBefore(paragraph, this.firstChild);
+
+	this.appendChild(paragraph);
+	this.scrollTop += 150;
+
+	return true;
 };
 
 respondWindow.show = function(node){
-	return node && this.insertBefore(node, this.firstChild);
+	if(
+		node && 
+		this.appendChild(node)
+	) {
+		this.scrollTop += 150;
+		return true;
+	}
+
+	return false;
 };
 
 
@@ -254,35 +268,29 @@ var respondRobot = {
 	},
 };
 
-inputBar.onkeydown = function(keyEvent){
-	if(keyEvent.which == 13 || keyEvent.keyCode == 13){
-		var text = this.value;
-		if(text.charAt(0) == ':') text = text.substr(1);
-		respondWindow.say(text);
-		this.value = '';
-	}
-};
 
 inputBar.oninput = function(){
 
-	var lastAlphabet = this.value.charAt(this.value.length - 1);
-	var elseAlphabet = 
-		this.value.substr(0,this.value.length - 1) || '';
+	var allAlphabet = this.value;
 
-	if(this.value.charAt(0) == ':'){
-		if( this.value.substr(-2) === '  '){
-			respondWindow.say(elseAlphabet.substr(1))
-			this.value = '';
-		}
 
-	} else if(lastAlphabet === ' ') {
+	if(allAlphabet.substr(-1) === '\n') {
+		respondWindow.say(allAlphabet);
 		this.value = '';
-		visualBar.textContent = characterTable[elseAlphabet] || '_';
+
+	} else if(allAlphabet.charAt(0) == ':') ;
+
+	else if(allAlphabet.substr(-1) === ' ') {
+		this.value = '';
+		visualBar.textContent = characterTable[
+			allAlphabet.substr(0,allAlphabet.length-1) 
+		] || '_';
+
 		if( visualBar.verifyCharacter() ) questCharacter.nextCharacter();
 		else hintBar.hintCharacter();
 
 	} else 
-		visualBar.generateCharacter(this.value);
+		visualBar.generateCharacter(allAlphabet);
 
 };
 
@@ -292,6 +300,11 @@ var fontPx = document.getElementById('fontPx').children[1];
 fontPx.onchange = function(){
 	document.body.style.fontSize = this.value + 'pt';
 }
+
+var convientNavigate = document.getElementById('convientNavigate');
+convientNavigate.onblur = function(){
+	document.getElementsByTagName('iframe')[0].src = this.value;
+};
 
 function init(){
 	tabler.setTable();
