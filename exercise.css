@@ -86,7 +86,9 @@ body,html { height: 98%; }
 
 .good { color: green; }
 .bad { color: red; }
-.gm { color: blue; }
+.gm { color: brown; }
+.system { color: blue; }
+
 a, a:visited { color: purple; }
 
 #fontPx > * { display: inline ; }

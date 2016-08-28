@@ -123,8 +123,10 @@ visualBar.generateCharacter = function (allAlphabet){
 	var visualString = "";
 
 	for (var i=0, l=allAlphabetArray.length; i<l; i++)
-			visualString += alphabetTable[ allAlphabetArray[i] ] + ' '
-				|| allAlphabetArray[i];
+			visualString += (
+				alphabetTable[ allAlphabetArray[i] ] || 
+				allAlphabetArray[i] 
+			) + ' ';
 
 	this.textContent = visualString + '_' ;
 };
@@ -226,28 +228,39 @@ var respondRobot = {
 	},
 
 	endStage: function(){
-		var currentStage = tabler.currentId,
-			paragraph = 
-				document.getElementById(
-					'nextStage'
-				).children[0].cloneNode(true);
+		var currentStage = tabler.currentId, paragraph = [];
 
-		paragraph.className = 'gm';
+		for(var i=0; i<3; i++){
+			paragraph[i] = document.getElementById(
+				'nextStage'
+			).children[i].cloneNode(true);
 
-		var text = paragraph.firstChild.nodeValue;
-		text = text.replace('tableId',currentStage);
-		text = text.replace('leftTable',31-currentStage);
-		paragraph.firstChild.nodeValue = text;
+			paragraph[i].className = 'system';
+		}
 
-		var anchor = paragraph.children[0];
+		var paragraphText = paragraph[1].textContent;
+		paragraphText  = paragraphText.replace('tableId',currentStage);
+		paragraphText = paragraphText.replace('leftTable',31-currentStage);
+		paragraph[1].textContent = paragraphText;
+
+		var anchor = paragraph[2].children[0];
 		anchor.href = '#' + (currentStage + 1) ;
 
-		var text = anchor.textContent;
-		text = text.replace('nextTableId',currentStage+1);
-		anchor.textContent = text;
+		var anchorText = anchor.textContent;
+		anchorText = anchorText.replace('nextTableId',currentStage+1);
+		anchor.textContent = anchorText;
 
-		respondWindow.show(paragraph);
+		for(i=0; i<3; i++) respondWindow.show(paragraph[i]);
 	},
+};
+
+inputBar.onkeydown = function(keyEvent){
+	if(keyEvent.which == 13 || keyEvent.keyCode == 13){
+		var text = this.value;
+		if(text.charAt(0) == ':') text = text.substr(1);
+		respondWindow.say(text);
+		this.value = '';
+	}
 };
 
 inputBar.oninput = function(){
@@ -295,5 +308,5 @@ function init(){
 
 window.onhashchange = init;
 
-init();
+document.body.onload = init;
 
