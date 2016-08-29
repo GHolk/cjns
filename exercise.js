@@ -7,34 +7,38 @@ function mapCharacterTable (characterUse){
 	for (var i=0, l=characterArray.length; i<l; i++)
 		if(characterArray[i])
 			this[characterArray[i].substr(1)] = characterArray[i].charAt(0);
+}
 
-	characterUse.textContent = 
-		characterUse.textContent.replace(/[a-z]*\n/g,' ');
+mapCharacterTable.prototype = {
 
-	this.findAlphabet = function(character){
+	findAlphabet: function(character){
 		for(var i in this)
 			if(this[i] === character) return i;
-	};
+	},
 
-	this.getCharacterAndAlphabet = function(oldAlphabet){
+	getCharacterAndAlphabet: function(oldAlphabet){
+
 		this[oldAlphabet] = undefined;
 		for (var i in this)
 			if(
-				typeof(this[i]) === 'string' && 
+				typeof(this[i]) == 'string' && 
 				this[i].length == 1
-			) return [this[i], i];
-	};
+			)
+				return [this[i], i];
 
-	this.findAlphabet = function(character){
+		return false;
+	},
+
+	findAlphabet: function(character){
 		for(var i in this)
 			if(this[i] === character) return i;
-	};
-}
-
+	},
+};
 
 var alphabetTable = { a:'日', b:'月', c:'金', d:'木', e:'水', f:'火', g:'土', h:'竹', i:'戈', j:'十', k:'大', l:'中', m:'一', n:'弓', o:'人', p:'心', q:'手', r:'口', s:'尸', t:'廿', u:'山', v:'女', w:'田', x:'難', y:'卜', z:'重' }; 
 
 
+/*
 function createTabler(hash){
 
 	this.currentId = Math.abs(Math.floor(
@@ -59,6 +63,23 @@ function createTabler(hash){
 }
 
 var tabler = new createTabler(window.location.hash);
+*/
+
+var tabler = {
+
+	getCurrentId: function(){
+		return Math.abs(Math.floor( Number(
+			window.location.hash.substr(1)
+		) )%32) || 0;
+	},
+
+	setTable: function(){
+		document.getElementById('characterUse').textContent = 
+			document.getElementById( 
+				this.getCurrentId() 
+			).textContent.replace(/[a-z]*\n/g,' ');
+	},
+};
 
 var characterTable;
 
@@ -97,38 +118,40 @@ var hintBar = document.getElementById('hint');
 
 hintBar.newHintState = function(){
 	var answerAlphabetLength = questCharacter.title.length; 
-	this.hintState = [];
+	var hintState = [];
 	for(var i=0, l=answerAlphabetLength; i<l; i++)
-		this.hintState.push('＊');
-	this.textContent = this.hintState.join(' ');
+		hintState.push('＊');
+	this.textContent = hintState.join(' ');
 };
 
 hintBar.hintCharacter = function(){
 
 	var answerAlphabet = questCharacter.title;
+	var hintState = this.textContent.split(' ');
 
-	if(this.hintState.indexOf('＊') == -1) return true;
+	if(hintState.indexOf('＊') == -1) return true;
 
 	var newIndex;
 	do newIndex = Math.floor( Math.random()*answerAlphabet.length );
-	while( this.hintState[newIndex] != '＊' );
-	this.hintState[newIndex] = alphabetTable[answerAlphabet.charAt(newIndex)];
+	while( hintState[newIndex] != '＊' );
 
-	this.textContent = this.hintState.join(' ');
+	hintState[newIndex] = alphabetTable[answerAlphabet.charAt(newIndex)];
+
+	this.textContent = hintState.join(' ');
 };
 
 questCharacter.nextCharacter = function(){
 	var characterAndAlphabet = 
 		characterTable.getCharacterAndAlphabet(this.title) ;
 
-	if(!characterAndAlphabet){ 
-		respondRobot.endStage();
-		return false;
-	}
+	if( Array.isArray(characterAndAlphabet) ){ 
+		this.textContent = characterAndAlphabet[0];
+		this.title = characterAndAlphabet[1];
+		hintBar.newHintState();
 
-	this.textContent = characterAndAlphabet[0];
-	this.title = characterAndAlphabet[1];
-	hintBar.newHintState();
+	} else
+		respondRobot.endStage();
+
 };
 
 visualBar.generateCharacter = function (allAlphabet){
@@ -188,9 +211,11 @@ var respondRobot = {
 		}
 	},
 
+/*
 	tableIntro: function(){
-		
+		respondWindow.say(characterTable.title, 'system');
 	},
+*/
 
 	cumulateRespond: function(){
 
@@ -236,7 +261,7 @@ var respondRobot = {
 	},
 
 	endStage: function(){
-		var currentStage = tabler.currentId, paragraph = [];
+		var currentStage = tabler.getCurrentId(), paragraph = [];
 
 		for(var i=0; i<3; i++){
 			paragraph[i] = document.getElementById(
@@ -247,7 +272,7 @@ var respondRobot = {
 		}
 
 		var paragraphText = paragraph[1].textContent;
-		paragraphText  = paragraphText.replace('tableId',currentStage);
+		paragraphText = paragraphText.replace('tableId',currentStage);
 		paragraphText = paragraphText.replace('leftTable',31-currentStage);
 		paragraph[1].textContent = paragraphText;
 
@@ -312,8 +337,10 @@ convientNavigate.onblur = function(){
 
 function init(){
 	tabler.setTable();
-	characterTable = 
-		new mapCharacterTable(document.getElementById(tabler.currentId));
+	characterTable = new mapCharacterTable(
+			document.getElementById( tabler.getCurrentId() )
+	);
+
 	if(!characterTable[questCharacter.title])
 		questCharacter.nextCharacter();
 	//respondRobot.tableIntro();
