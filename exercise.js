@@ -166,6 +166,7 @@ var respondRobot = {
 
 // 幫我撐十秒！
 	current: undefined,
+	inputTimes: 0,
 	cumulateTimes: 0,
 	doCumulate: function(){
 		var current = this.current, cumulateTimes = this.cumulateTimes;
@@ -217,27 +218,20 @@ var respondRobot = {
 		sentence && respondWindow.say(sentence,point);
 	},
 
-	inputRespond: function(state){
-		this.current = state;
-		this.doCumulate();
-		this.cumulateRespond();
-	},
-
 	hintRespond: function(){
-		var paragraph = 
-			document.getElementById('respondMaterial').children[0] || 
-			false ;
-		paragraph.className = 'gm';
 
-		if( paragraph && respondWindow.show(paragraph) ){
+		if(this.inputTimes%17 == 16 && this.currentStage === 0){
+			var paragraph = 
+				document.getElementById('respondMaterial').children[0] || 
+				false ;
+			paragraph.className = 'gm';
 
-			var waitTime = respondRobot.hintRespond.waitTime ;
+			function sayHint(){
+			// call by closure. 
+				respondWindow.show(paragraph);
+			}
 
-			waitTime = waitTime || 60000;
-			waitTime += 30000*(1+Math.random())
-
-			setTimeout(respondRobot.hintRespond, waitTime);
-			respondRobot.hintRespond.waitTime = waitTime;
+			window.setTimeout(sayHint, 3 + Math.random()*3);
 		}
 	},
 
@@ -265,6 +259,14 @@ var respondRobot = {
 		anchor.textContent = anchorText;
 
 		for(i=0; i<3; i++) respondWindow.show(paragraph[i]);
+	},
+
+	inputRespond: function(state){
+		this.current = state;
+		this.inputTimes++;
+		this.hintRespond();
+		this.doCumulate();
+		this.cumulateRespond();
 	},
 };
 
@@ -301,10 +303,12 @@ fontPx.onchange = function(){
 	document.body.style.fontSize = this.value + 'pt';
 }
 
+/*
 var convientNavigate = document.getElementById('convientNavigate');
 convientNavigate.onblur = function(){
 	document.getElementsByTagName('iframe')[0].src = this.value;
 };
+*/
 
 function init(){
 	tabler.setTable();
@@ -314,7 +318,6 @@ function init(){
 		questCharacter.nextCharacter();
 	//respondRobot.tableIntro();
 	hintBar.newHintState();
-	setTimeout(respondRobot.hintRespond, (1+Math.random())*30000)
 	inputBar.focus();
 	inputBar.select();
 }
