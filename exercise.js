@@ -86,7 +86,7 @@ var characterTable;
 var respondWindow = document.getElementById('respond');
 
 respondWindow.say = function(sentence,type){
-	if(!sentence) return false;
+	if( /^[ \t\n]*$/.test(sentence) ) return false;
 
 	var paragraph = document.createElement('p');
 	paragraph.textContent = sentence ;
@@ -256,7 +256,7 @@ var respondRobot = {
 
 	hintRespond: function(){
 
-		if(this.inputTimes%7 == 6 && this.currentStage === 0){
+		if(this.inputTimes%7 == 6 && this.current === 0){
 
 			function sayHint(){
 				var paragraph = 
@@ -318,11 +318,12 @@ inputBar.oninput = function(){
 
 	var allAlphabet = this.value;
 
-
 	if(allAlphabet.substr(-1) === '\n') {
-		respondWindow.say(allAlphabet);
+
+		if( respondWindow.say(allAlphabet) )
+			respondRobot.chatBack();
+
 		this.value = '';
-		respondRobot.chatBack();
 
 	} else if(allAlphabet.charAt(0) == ':') ;
 
