@@ -302,6 +302,8 @@ fontPx.onchange = function(){
 }
 
 /*
+=======
+>>>>>>> 9bc46b4d5235f16b9d9f203914a1b84466087886
 var convientNavigate = document.getElementById('convientNavigate');
 convientNavigate.onblur = function(){
 	document.getElementsByTagName('iframe')[0].src = this.value;
