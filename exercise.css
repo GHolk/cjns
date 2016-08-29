@@ -1,6 +1,6 @@
 body,html { height: 98%; }
 
-#character, #respondMaterial, #nextStage {
+#chatBack, #character, #respondMaterial, #nextStage {
 	display: none;
 }
 

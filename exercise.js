@@ -211,11 +211,22 @@ var respondRobot = {
 		}
 	},
 
-/*
+	/*
 	tableIntro: function(){
 		respondWindow.say(characterTable.title, 'system');
 	},
-*/
+	*/
+
+	chatBack: function(){
+
+		function chatBackLater(){
+			var respond = document.getElementById('chatBack').children[0]
+			respond.className = 'gm';
+			respondWindow.show(respond);
+		}
+
+		setTimeout(chatBackLater, 1000 + 2000*Math.random());
+	},
 
 	cumulateRespond: function(){
 
@@ -245,14 +256,14 @@ var respondRobot = {
 
 	hintRespond: function(){
 
-		if(this.inputTimes%17 == 16 && this.currentStage === 0){
-			var paragraph = 
-				document.getElementById('respondMaterial').children[0] || 
-				false ;
-			paragraph.className = 'gm';
+		if(this.inputTimes%7 == 6 && this.currentStage === 0){
 
 			function sayHint(){
-			// call by closure. 
+				var paragraph = 
+					document.getElementById('respondMaterial').children[0] || 
+					false ;
+				paragraph.className = 'gm';
+
 				respondWindow.show(paragraph);
 			}
 
@@ -296,6 +307,13 @@ var respondRobot = {
 };
 
 
+var fontPx = document.getElementById('fontPx').children[1];
+
+fontPx.onchange = function(){
+	document.body.style.fontSize = this.value + 'pt';
+}
+
+
 inputBar.oninput = function(){
 
 	var allAlphabet = this.value;
@@ -304,6 +322,7 @@ inputBar.oninput = function(){
 	if(allAlphabet.substr(-1) === '\n') {
 		respondWindow.say(allAlphabet);
 		this.value = '';
+		respondRobot.chatBack();
 
 	} else if(allAlphabet.charAt(0) == ':') ;
 
@@ -321,19 +340,6 @@ inputBar.oninput = function(){
 
 };
 
-
-var fontPx = document.getElementById('fontPx').children[1];
-
-fontPx.onchange = function(){
-	document.body.style.fontSize = this.value + 'pt';
-}
-
-/*
-var convientNavigate = document.getElementById('convientNavigate');
-convientNavigate.onblur = function(){
-	document.getElementsByTagName('iframe')[0].src = this.value;
-};
-*/
 
 function init(){
 	tabler.setTable();
