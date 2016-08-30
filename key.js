@@ -25,7 +25,7 @@ var keyboard = (function (keyboard){
 
 	var key = {};
 
-	var mapper = {};
+	var mapper = { ' ': ' ' };
 
 	for(var i=0; i<3; i++){
 
@@ -42,7 +42,7 @@ var keyboard = (function (keyboard){
 
 		setTimeout( 
 			function(){ key[key.press].doClass("-press"); },
-			50
+			150
 		);
 
 		key[keyName].doClass("+press");
@@ -109,7 +109,7 @@ questCheck = (function(characterTable){
 
 		for(var i=1, l=questBar.length; i<l; i++){
 			questBar[i].textContent = 
-				keyboard.mapper[ characterString.charAt(i) ];
+				keyboard.mapper[ characterString.charAt(i) || ' ' ];
 
 			questBar[i].doClass("");
 		}
