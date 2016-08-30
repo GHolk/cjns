@@ -1,3 +1,4 @@
+
 Element.prototype.doClass = function(command){
 	var operator = command.charAt(0), 
 		newClass = command.substr(1),
@@ -7,8 +8,12 @@ Element.prototype.doClass = function(command){
 		if (oldClass) this.className += ' ' + newClass;
 		else this.className = newClass;
 	} else if (operator == '-') {
-		var deClass = new RegExp(' ?' + newClass,'g');
-		this.className = oldClass.replace(deClass, '');
+		var deClass = new RegExp(' '+newClass+' ','g');
+
+		do oldClass = (' ' + oldClass + ' ').replace(deClass, ' ');
+		while (deClass.test(oldClass))
+
+		this.className = oldClass.slice(1,-1);
 	} else
 		this.className = command;
 
@@ -20,17 +25,26 @@ var keyboard = (function (keyboard){
 
 	var key = {};
 
+	var mapper = {};
+
 	for(var i=0; i<3; i++){
 
 		var row = keyboard.children[i].children;
 
 		for(var j=0, l=row.length; j<l; j++){
-			key[ row[j].title ]  =  row[j] ;
+			var alphabet = row[j].title;
+			key[alphabet]  =  row[j];
+			mapper[alphabet] = row[j].textContent;
 		}
 	}
 
 	function press (keyName){
-		key.press && key[key.press].doClass("-press");
+
+		setTimeout( 
+			function(){ key[key.press].doClass("-press"); },
+			50
+		);
+
 		key[keyName].doClass("+press");
 		key.press = keyName;
 	}
@@ -43,19 +57,28 @@ var keyboard = (function (keyboard){
 
 	return {
 		'press': press,
-		'hint': hint
+		'hint': hint,
+		'mapper': mapper
 	};
 
 })( document.getElementById('keyboardMap') );
+
+
 
 
 questCheck = (function(characterTable){
 
 	var characterArray = characterTable.textContent.split('\n');
 
-	var questBar = document.getElementById('questAlphabet').children;
+	var questBar = document.getElementById('questAlphabet').children,
+		nowCharacter;
 
-	var nowCharacter = "yfiku";
+	/*
+	var questBar = [
+		document.getElementById('questAlphabet').children[0].children,
+		document.getElementById('questAlphabet').children[1].children
+	];
+	*/
 
 	function compare(string){
 		for(var i=0, l=nowCharacter.length; i<l; i++)
@@ -79,11 +102,19 @@ questCheck = (function(characterTable){
 	function setNewCharacter (characterString){
 		nowCharacter = characterString.slice(1);
 
-		for(var i=0, l=questBar.length; i<l; i++){
-			questBar[i].textContent = characterString.charAt(i);
+		questBar[0].textContent = characterString.charAt(0);
+
+		for(var i=1, l=questBar.length; i<l; i++){
+			questBar[i].textContent = 
+				keyboard.mapper[ characterString.charAt(i) ];
+
 			questBar[i].doClass("");
 		}
 	}
+
+	setNewCharacter( characterArray[ 
+		Math.floor( Math.random() * (characterArray.length-2) ) + 1
+	] );
 
 	function check(string){
 		var index = compare(string);
@@ -103,6 +134,7 @@ questCheck = (function(characterTable){
 
 })( document.getElementById("character") );
 
+//alphabetMaper = (function(){
 
 document.getElementById('inputBar').oninput = function(){
 
@@ -111,9 +143,11 @@ document.getElementById('inputBar').oninput = function(){
 		this.value = '';
 		string = '';
 	}
+
 	string && keyboard.press(string.slice(-1));
 
 	if( questCheck(string) ) this.value = '';
 };
 
-inputBar.focus() && inputBar.select();
+inputBar.focus();
+inputBar.select();

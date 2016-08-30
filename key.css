@@ -38,7 +38,7 @@ div#keyboardMap code.hint, div#keyboardMap code.hint.foreFinger {
 
 div#keyboardMap code.press, div#keyboardMap code.press.foreFinger {
 	color: white;
-	background-color: black;
+	background-color: #444;
 }
 
 div#chat {
@@ -54,4 +54,8 @@ code.right{
 
 code.wrong{
 	border-bottom: red solid 0.5ex;
+}
+
+#character {
+	display: none;
 }
