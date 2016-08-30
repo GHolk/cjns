@@ -1,19 +1,19 @@
 
 div#questAlphabet {
-	font-size: 3em;
-	width: 70%;
-	height: 2em;
-}
-
-div#questAlphabet div {
-	float: left;
-	text-align: center;
-	width: 50%;
+	font-size: 5em;
 }
 
 div#questAlphabet code:first-child {
+	display: block;
+	float: left;
+	width: 1.5em;
+	height: 1.5em;
 	font-weight: 700;
+	border: solid 0.1ex;
+	text-align: center;
 }
+
+/*div#questAlphabet code {*/
 
 div#keyboardMap {
 	font-size: 3em;
@@ -58,4 +58,10 @@ code.wrong{
 
 #character {
 	display: none;
+}
+
+#inputBar {
+	position: fixed;
+	bottom: 0;
+	right: 0;
 }

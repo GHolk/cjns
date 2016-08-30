@@ -130,11 +130,14 @@ questCheck = (function(characterTable){
 		}
 	}
 
+	check.character = function (newNumber){
+		if(newNumber) setNewCharacter( characterArray[newNumber] );
+		return nowCharacter;
+	};
+
 	return check;
 
 })( document.getElementById("character") );
-
-//alphabetMaper = (function(){
 
 document.getElementById('inputBar').oninput = function(){
 
