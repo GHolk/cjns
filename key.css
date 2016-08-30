@@ -1,0 +1,57 @@
+
+div#questAlphabet {
+	font-size: 3em;
+	width: 70%;
+	height: 2em;
+}
+
+div#questAlphabet div {
+	float: left;
+	text-align: center;
+	width: 50%;
+}
+
+div#questAlphabet code:first-child {
+	font-weight: 700;
+}
+
+div#keyboardMap {
+	font-size: 3em;
+	text-align: center;
+}
+
+#keyboardMap code {
+	background-color: grey;
+	display: inline-block;
+	border: black outset 0.2ex;
+}
+
+div#keyboardMap code.leftHand.foreFinger { background-color: #FF2; }
+div#keyboardMap code.leftHand { background-color: #FFA; }
+
+div#keyboardMap code.rightHand.foreFinger { background-color: #F55; }
+div#keyboardMap code.rightHand { background-color: #FAA; }
+
+div#keyboardMap code.hint, div#keyboardMap code.hint.foreFinger {
+	background-color: white;
+}
+
+div#keyboardMap code.press, div#keyboardMap code.press.foreFinger {
+	color: white;
+	background-color: black;
+}
+
+div#chat {
+	background-color: #DDD;
+	float: left;
+	height: 100%;
+	overflow-y: scroll;
+}
+
+code.right{
+	border-bottom: green solid 0.5ex;
+}
+
+code.wrong{
+	border-bottom: red solid 0.5ex;
+}
