@@ -1,9 +1,119 @@
-<pre class="character">
-柚dlw
-札du
-屁spp
-謙yrtxc
-父ck
+<!DOCTYPE HTML>
+<html lang="zh-TW" prefix="og: http://ogp.me/ns#">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="author" property="og:article:author" content="c34031328">
+<meta name="copyright" content="Common Creative">
+<meta name="generator" content="vim">
+<!-- 來自 escape 的 meta -->
+<!-- 以上一般不用改，以下才要改。 -->
+
+<!-- 後設資料 -->
+<meta name="date" content="2016-08-25">
+<meta name="keywords" property="og:article:tag" content="倉頡新星, 倉頡輸入法, cj, 練習, 教學, 拆字">
+<meta property="og:discription" name="discription" content="用 HTML + CSS + JS 做的倉頡輸入法拆字練習軟體。">
+
+<!-- 和網頁位置有關 -->
+<meta property="og:url" content="http://gholk.github.io/cjns/exercise.html">
+<!--link rel="icon" type="image/png" href="../icon.png"-->
+<!--meta property="og:image" content="../icon.png"-->
+<link rel="stylesheet" type="text/css" href="composeExercise.css">
+
+<title> 倉頡新星 字庫練習 </title>
+</head>
+<body>
+
+<div id="questContainer">
+
+<h1 title="ahqm" id="quest">星</h1>
+<div id="hint">＊＊＊＊</div>
+
+<span id="visual">_</span>
+
+<textarea id="input" placeholder="請在這裡輸入英文字母">
+</textarea>
+
+</div>
+
+<div id="middleContainer">
+
+<div id="respond">
+<p class="system">
+  <em>
+    歡迎來到 <strong>倉頡新星</strong>
+    的 <strong>字庫練習</strong> 。
+  </em>
+</p>
+<p class="system">
+  把游標放到右下角的輸入區
+  並把輸入法調成英文，
+  就可以開始練習了！
+</p>
+
+  <div id="respondMaterial">
+    <p>偷偷告訢你，用冒號開頭可以和我對話。</p>
+    <p>要按 Enter 鍵才會送出對話喔。</p>
+    <p>其實不用用冒號也可以送字啦。</p>
+    <p>字體可以用控制條調大小。</p>
+    <p>唉……，一直喊對錯對錯也是很累的。</p>
+    <p>不然你來喊，我來打。</p>
+    <p>哈哈，怎麼可能啊！</p>
+  </div>
+  
+  <div id="chatBack">
+    <p>哈哈，你說話了！</p>
+    <p>哦！</p>
+	<p>好喔。</p>
+    <p>嗯嗯。</p>
+    <p>真的嗎？</p>
+    <p>哈哈，先洗澡。</p>
+  </div>
+
+  <div id="nextStage">
+    <p>
+      恭喜你完成本字庫！
+	</p>
+	<p>
+      這是第 tableId 個字庫，
+      還有 leftTable 個字庫等著你。
+	</p>
+	<p>
+      歡迎挑戰 <a href="#nextTableId">第 nextTableId 個字庫</a> ！
+	</p>
+	<p>恭喜，你已經完成常用共 4808 字的練習了！</p>
+  </div>
+</div>
+
+<div id="fontPx">
+<h2>字體大小</h2>
+<input type="range" min="1" max="28" />
+</div>
+
+</div>
+
+<div id="characterContainer">
+
+
+<!--iframe src="JavaScript:''">
+<p class="system">您無福享受啦！</p>
+</iframe>
+<input id="convientNavigate" type="text" /-->
+
+<h2 id="characterHead">目前使用中的表格</h2>
+
+<pre id="characterUse">
+夫 佳 兵 者 不 祥 之 器 
+物 或 惡 之 故 有 道 者 不 處 
+君 子 居 則 貴 左 用 兵 則 貴 右 
+兵 者 不 祥 之 器 非 君 子 之 器 不 得 已 而 用 之 恬 淡 爲 上 
+勝 而 不 美 而 美 之 者 是 樂 殺 人 夫 樂 殺 人 者 則 不 可 以 得 志 於 天 下 矣 
+吉 事 尚 左 凶 事 尚 右 偏 將 軍 居 左 上 將 軍 居 右 言 以 喪 禮 處 之 
+殺 人 之 衆 以 哀 悲 泣 之 戰 勝 以 喪 禮 處 之 
+</pre>
+
+<div id="character">
+<pre id="0">
 現mgbuu
 數lvok
 勾pi
@@ -149,9 +259,15 @@
 釗cln
 迆ypd
 娑ehv
+柚dlw
+札du
+屁spp
+謙yrtxc
+父ck
 </pre>
 
-<pre class="character">
+<pre id="1">
+仲ol
 瑛mgtlk
 才dh
 璋mgytj
@@ -298,13 +414,12 @@
 啣roml
 指qpa
 飢oihn
-仲ol
 土g
 嫦vfbb
 叵sr
 </pre>
 
-<pre class="character">
+<pre id="2">
 佾ocb
 梁eid
 煌fhag
@@ -457,7 +572,7 @@
 菰tndo
 </pre>
 
-<pre class="character">
+<pre id="3">
 公ci
 因wk
 錐cog
@@ -568,7 +683,7 @@
 叫rvl
 </pre>
 
-<pre class="character">
+<pre id="4">
 哂rmcw
 踵rmhjg
 樺dtmj
@@ -613,7 +728,7 @@
 段hjhne
 </pre>
 
-<pre class="character">
+<pre id="5">
 瀨edlc
 陽nlamh
 拙quu
@@ -766,7 +881,7 @@
 昔ta
 </pre>
 
-<pre class="character">
+<pre id="6">
 萵tbbr
 寐jvmd
 地gpd
@@ -921,7 +1036,7 @@
 牢jhq
 </pre>
 
-<pre class="character">
+<pre id="7">
 咽rwk
 閣anher
 隙nlfhf
@@ -1074,7 +1189,7 @@
 忍sip
 </pre>
 
-<pre class="character">
+<pre id="8">
 巫moo
 耕qdtt
 考jkys
@@ -1227,7 +1342,7 @@
 磊mrmrr
 </pre>
 
-<pre class="character">
+<pre id="9">
 戳sgi
 鈉cob
 瑯mgiil
@@ -1381,7 +1496,7 @@
 描qtw
 </pre>
 
-<pre class="character">
+<pre id="10">
 餘oiomd
 砰mrmfj
 稚hdog
@@ -1533,7 +1648,7 @@
 昨ahs
 </pre>
 
-<pre class="character">
+<pre id="11">
 揩qppa
 滄eoir
 錦chab
@@ -1686,7 +1801,7 @@
 糢fdtak
 </pre>
 
-<pre class="character">
+<pre id="12">
 緊sevif
 苟tpr
 軾jjipm
@@ -1839,7 +1954,7 @@
 微houuk
 </pre>
 
-<pre class="character">
+<pre id="13">
 移hdnin
 戮shi
 髮shikk
@@ -1992,7 +2107,7 @@
 念oinp
 </pre>
 
-<pre class="character">
+<pre id="14">
 灤evfd
 甌srmvn
 蟀liyij
@@ -2145,7 +2260,7 @@
 稀hdkkb
 </pre>
 
-<pre class="character">
+<pre id="15">
 冗bhn
 遴yfdq
 風hnhli
@@ -2298,7 +2413,7 @@
 慣pwjc
 </pre>
 
-<pre class="character">
+<pre id="16">
 壤gyrv
 鐳cmbw
 崖umgg
@@ -2451,7 +2566,7 @@
 櫓dnwa
 </pre>
 
-<pre class="character">
+<pre id="17">
 颱hnir
 卵hhsli
 喝rapv
@@ -2604,7 +2719,7 @@
 瘤khhw
 </pre>
 
-<pre class="character">
+<pre id="18">
 踫rmttc
 瀟etlx
 臺grbg
@@ -2757,7 +2872,7 @@
 賣gwlc
 </pre>
 
-<pre class="character">
+<pre id="19">
 恨pav
 扯qylm
 雉okog
@@ -2910,7 +3025,7 @@
 槳vid
 </pre>
 
-<pre class="character">
+<pre id="20">
 循hohju
 稍hdfb
 迥ybr
@@ -3063,7 +3178,7 @@
 忌sup
 </pre>
 
-<pre class="character">
+<pre id="21">
 審jhdw
 釋hdwlj
 止ylm
@@ -3216,7 +3331,7 @@
 抨qmfj
 </pre>
 
-<pre class="character">
+<pre id="22">
 進yog
 堪gtmv
 糕fdtgf
@@ -3369,7 +3484,7 @@
 厲mtwb
 </pre>
 
-<pre class="character">
+<pre id="23">
 忙pyv
 莎tefh
 躪rmtag
@@ -3522,7 +3637,7 @@
 蠻vflmi
 </pre>
 
-<pre class="character">
+<pre id="24">
 箋hii
 鷥vfhaf
 抓qhlo
@@ -3675,7 +3790,7 @@
 熟yif
 </pre>
 
-<pre class="character">
+<pre id="25">
 夥wdnin
 登nomrt
 廷nkhg
@@ -3828,7 +3943,7 @@
 羸yrbtn
 </pre>
 
-<pre class="character">
+<pre id="26">
 燧fyto
 柄dmob
 渺ebuh
@@ -3981,7 +4096,7 @@
 芥toll
 </pre>
 
-<pre class="character">
+<pre id="27">
 懸bfp
 暑ajka
 躲hhhnd
@@ -4134,7 +4249,7 @@
 被ldhe
 </pre>
 
-<pre class="character">
+<pre id="28">
 紐vfng
 桅dnmu
 請yrqmb
@@ -4287,7 +4402,7 @@
 籟hdlc
 </pre>
 
-<pre class="character">
+<pre id="29">
 桶dnib
 閉andh
 債oqmc
@@ -4440,7 +4555,7 @@
 雨mlby
 </pre>
 
-<pre class="character">
+<pre id="30">
 落tehr
 述yijc
 贊hubuc
@@ -4593,7 +4708,7 @@
 說yrcru
 </pre>
 
-<pre class="character">
+<pre id="31">
 辭bbytj
 號rsypu
 憚prrj
@@ -4745,7 +4860,7 @@
 踴rmnbs
 </pre>
 
-<pre class="character">
+<pre id="32">
 倨osjr
 激ehsk
 氟onlln
@@ -4896,3 +5011,13 @@
 逵ygcg
 韜dqbhx
 </pre>
+</div>
+
+</div>
+
+
+<script defer src="composeExercise.js"></script>
+
+</body>
+</html>
+
