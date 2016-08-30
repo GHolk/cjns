@@ -1,9 +1,9 @@
 
 div#questAlphabet {
-	font-size: 5em;
+	font-size: 4em;
 }
 
-div#questAlphabet code:first-child {
+div#questAlphabet span.questCharacter {
 	display: block;
 	float: left;
 	width: 1.5em;
@@ -11,32 +11,38 @@ div#questAlphabet code:first-child {
 	font-weight: 700;
 	border: solid 0.1ex;
 	text-align: center;
+	margin-right: 1ex;
 }
 
-/*div#questAlphabet code {*/
+/*div#questAlphabet span {*/
 
 div#keyboardMap {
-	font-size: 3em;
+	font-size: 2.5em;
 	text-align: center;
+	width: 80%;
 }
 
-#keyboardMap code {
+#keyboardMap div {
+	margin: 0.5ex;
+}
+
+#keyboardMap span {
 	background-color: grey;
 	display: inline-block;
 	border: black outset 0.2ex;
 }
 
-div#keyboardMap code.leftHand.foreFinger { background-color: #FF2; }
-div#keyboardMap code.leftHand { background-color: #FFA; }
+div#keyboardMap span.leftHand.foreFinger { background-color: #FF2; }
+div#keyboardMap span.leftHand { background-color: #FFA; }
 
-div#keyboardMap code.rightHand.foreFinger { background-color: #F55; }
-div#keyboardMap code.rightHand { background-color: #FAA; }
+div#keyboardMap span.rightHand.foreFinger { background-color: #F55; }
+div#keyboardMap span.rightHand { background-color: #FAA; }
 
-div#keyboardMap code.hint, div#keyboardMap code.hint.foreFinger {
+div#keyboardMap span.hint, div#keyboardMap span.hint.foreFinger {
 	background-color: white;
 }
 
-div#keyboardMap code.press, div#keyboardMap code.press.foreFinger {
+div#keyboardMap span.press, div#keyboardMap span.press.foreFinger {
 	color: white;
 	background-color: #444;
 }
@@ -48,12 +54,16 @@ div#chat {
 	overflow-y: scroll;
 }
 
-code.right{
-	border-bottom: green solid 0.5ex;
+span.right{
+	border-bottom: green solid 0.4ex;
 }
 
-code.wrong{
-	border-bottom: red solid 0.5ex;
+span.wrong{
+	border-bottom: red solid 0.4ex;
+}
+
+span.cursor{
+	border-bottom: grey solid 0.2ex;
 }
 
 #character {
@@ -64,4 +74,9 @@ code.wrong{
 	position: fixed;
 	bottom: 0;
 	right: 0;
+}
+
+hr {
+	margin: 2em;
+	border: 0.2ex solid;
 }

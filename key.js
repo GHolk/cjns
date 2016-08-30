@@ -87,16 +87,19 @@ questCheck = (function(characterTable){
 		return i;
 	}
 
-	function indicate(index, right){
+	function indicate(index, wrong){
 		var l = nowCharacter.length;
 
 		for(var i=0; i<index; i++)
 			questBar[i+1].doClass("right");
-		for( ; i<l; i++)
-			questBar[i+1].doClass("");
 
-		if(right)
-			questBar[index+1].doClass("wrong");
+		for( ; i<wrong; i++)
+			questBar[i+1].doClass("wrong");
+
+		questBar[++i].doClass("cursor");
+
+		for(; i<l; i++)
+			questBar[i+1].doClass("");
 	}
 
 	function setNewCharacter (characterString){
@@ -119,21 +122,25 @@ questCheck = (function(characterTable){
 	function check(string){
 		var index = compare(string);
 
-		if(index < nowCharacter.length){
-			indicate(index, string.charAt(index));
-		} else {
+		if(index >= nowCharacter.length){
 			setNewCharacter( characterArray[ 
 				Math.floor( Math.random() * (characterArray.length-2) ) + 1
 			] );
-
-			return true;
+			index = -1;
+			string = '';
 		}
+
+		indicate(index, string.length);
+
+		return index == -1;
 	}
 
+/*
 	check.character = function (newNumber){
 		if(newNumber) setNewCharacter( characterArray[newNumber] );
 		return nowCharacter;
 	};
+*/
 
 	return check;
 
