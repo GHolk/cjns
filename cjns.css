@@ -6,3 +6,20 @@ body {
 h2 {
 	margin-top: 1.5em;
 }
+
+
+dl { padding-left: 1em; }
+
+.inline dt {
+	/*border: 0; */
+	float: left; 
+}
+
+.inline dt:lang(zh):after {
+	content: '：' ; 
+	}
+
+.inline dd {
+	display: table; 
+	clear: right; 
+}
