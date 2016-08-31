@@ -1,6 +1,6 @@
 
 body { 
-	padding: 1em;
+	padding: 2em;
 }
 
 h2 {
@@ -22,4 +22,28 @@ dl { padding-left: 1em; }
 .inline dd {
 	display: table; 
 	clear: right; 
+}
+
+
+table {
+	border: 1px solid;
+	margin: auto;
+}
+
+th, td {
+	border: 1px solid;
+	padding: 0.3ex 1ex;
+}
+
+th { text-align: center; }
+tr.characterElement { background-color: #DDD; }
+
+code {
+	background-color: #F8F8F8;
+	border: solid 1px;
+	padding: 2px;
+}
+
+ul, ol {
+	margin-bottom: 2em;
 }
