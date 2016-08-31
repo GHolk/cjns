@@ -93,13 +93,17 @@ questCheck = (function(characterTable){
 		for(var i=0; i<index; i++)
 			questBar[i+1].doClass("right");
 
-		for( ; i<wrong; i++)
+		hintCharIndex = i;
+
+		for(; i<wrong; i++)
 			questBar[i+1].doClass("wrong");
 
 		questBar[++i].doClass("cursor");
 
 		for(; i<l; i++)
 			questBar[i+1].doClass("");
+
+		return hintCharIndex;
 	}
 
 	function setNewCharacter (characterString){
@@ -130,7 +134,9 @@ questCheck = (function(characterTable){
 			string = '';
 		}
 
-		indicate(index, string.length);
+		keyboard.hint( nowCharacter.charAt(
+			indicate(index, string.length) 
+		));
 
 		return index == -1;
 	}
@@ -157,6 +163,10 @@ document.getElementById('inputBar').oninput = function(){
 	string && keyboard.press(string.slice(-1));
 
 	if( questCheck(string) ) this.value = '';
+};
+
+document.getElementById('fontPx').children[1].onchange = function(){
+	document.body.style.fontSize = this.value + 'px';
 };
 
 inputBar.focus();
