@@ -66,7 +66,20 @@
 </p>
 
 
-<h2> 留言板 </h2>
+<h2> <a href="#disqus_thread">留言板</a> </h2>
+
+<p>凡走過必留下痕跡，留個言吧，不用登入喔！
+至少讓我知道這個軟體有人用過 T_T </p>
+
+<ol>
+<li> 點 <a href="#disqus_thread">留言板</a> ，等 DISQUS 載入。 </li>
+<li> 留你想說的話， Name 的欄位可以隨便取名字。 </li>
+<li> 勾下面的小字 <code>□ I'd rather post as a guest</code> 。 </li>
+<li> 填你的 e-mail ，不想填自己的話可以填 <code>username@gmail.com</code> 。 </li>
+<li> 匿名留言要等站長看過才會貼出來，不想等也可以用實名；
+DISQUS 支援各大社群網站的帳號！ </li>
+</ol>
+
 <div id="disqus_thread"></div>
 <script>
 
@@ -81,12 +94,17 @@ var disqus_config = function () {
         // Replace PAGE_IDENTIFIER with your page's unique identifier variable
 };
 
-(function() { // DON'T EDIT BELOW THIS LINE
+window.onhashchange = function() { // DON'T EDIT BELOW THIS LINE
+    if(window.location.hash != '#disqus_thread') return false;
+
     var d = document, s = d.createElement('script');
     s.src = 'https://cjns.disqus.com/embed.js';
     s.setAttribute('data-timestamp', +new Date());
     (d.head || d.body).appendChild(s);
-})();
+};
+
+window.onhashchange();
+
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
