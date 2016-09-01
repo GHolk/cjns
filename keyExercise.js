@@ -1,23 +1,29 @@
 
 Element.prototype.doClass = function(command){
 	var operator = command.charAt(0), 
-		newClass = command.substr(1),
-		oldClass = this.className;
-	
+		newClass = command.slice(1),
+		oldClass = (this.className || '').split(' ') ;
+
 	if (operator == '+'){
-		if (oldClass) this.className += ' ' + newClass;
-		else this.className = newClass;
+		oldClass.push(newClass);
+		this.className = oldClass.join(' ');
+
 	} else if (operator == '-') {
+		/*
 		var deClass = new RegExp(' '+newClass+' ','g');
 
 		do oldClass = (' ' + oldClass + ' ').replace(deClass, ' ');
 		while (deClass.test(oldClass))
+		*/
 
-		this.className = oldClass.slice(1,-1);
+		do oldClass.splice( oldClass.indexOf(newClass), 1 );
+		while (oldClass.indexOf(newClass) != -1)
+		this.className = oldClass.join(' ');
+
+		//this.className = oldClass.slice(1,-1);
 	} else
 		this.className = command;
 
-	return true;
 };
 
 
