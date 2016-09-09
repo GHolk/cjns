@@ -94,13 +94,18 @@ var disqus_config = function () {
         // Replace PAGE_IDENTIFIER with your page's unique identifier variable
 };
 
-window.onhashchange = function() { // DON'T EDIT BELOW THIS LINE
-    if(window.location.hash == '#disqus_thread'){
+// DON'T EDIT BELOW THIS LINE  // who care?
+window.onhashchange = function loadDisqus() { 
+    if( 
+        window.location.hash == '#disqus_thread' && 
+        loadDisqus.hasOwnProperty('isLoad') == false
+    ){
 
         var d = document, s = d.createElement('script');
         s.src = 'https://cjns.disqus.com/embed.js';
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
+        loadDisqus.isLoad = true;
     }
 };
 
