@@ -77,6 +77,10 @@
       function useEnglishLayout() {
         const keys = document.querySelectorAll('#keyboardMap span[title]')
         keys.forEach(key => key.textContent = key.title)
+      
+        for (const alpha in keyboard.mapper) {
+            keyboard.mapper[alpha] = alpha
+        }
       }
     </script>
   </div>
