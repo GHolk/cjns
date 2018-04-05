@@ -33,6 +33,7 @@ div#keyboardMap {
 	background-color: grey;
 	display: inline-block;
 	border: black outset 0.2ex;
+        width: 1em;
 }
 
 div#keyboardMap span.leftHand.foreFinger { background-color: #FF0; }

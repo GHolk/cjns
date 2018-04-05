@@ -64,7 +64,8 @@ var keyboard = (function (keyboard){
 	return {
 		'press': press,
 		'hint': hint,
-		'mapper': mapper
+		'mapper': mapper,
+		'key': key
 	};
 
 })( document.getElementById('keyboardMap') );
