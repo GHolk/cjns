@@ -73,6 +73,12 @@
     <h2>字體大小</h2>
     <input type="range" min="8" max="36" />
     <button onclick="useEnglishLayout()">英文鍵盤</button>
+    <script>
+      function useEnglishLayout() {
+        const keys = document.querySelectorAll('#keyboardMap span[title]')
+        keys.forEach(key => key.textContent = key.title)
+      }
+    </script>
   </div>
   
   <h2> <a href="index.html">回首頁</a> </h2>
@@ -82,146 +88,141 @@
 <textarea id="inputBar" placeholder="請在此輸入英文字母"></textarea>
 
 <pre id="character">
-一 m
-三 mmm
-上 ym
-下 my
-不 mf
-中 l
-之 ino
-也 pd
-了 nn
-事 jlln
-人 o
-他 opd
-以 vio
-但 oam
-作 ohs
-你 onf
-來 doo
-個 owjr
-們 oan
-候 olnk
-傳 ojii
-像 onao
-兒 hxhu
-其 tmmc
-出 uu
-分 csh
-到 mgln
-前 tbln
-十 j
-去 gi
-只 rc
-可 mnr
-和 hdr
-喔 rsmg
-嗎 rsqf
-囉 rwlg
-因 wk
-國 wirm
-在 klg
-地 gpd
-外 niy
-多 nini
-大 k
-天 mk
-她 vpd
-好 vnd
-如 vr
-子 nd
-學 hbnd
-定 jmyo
-家 jmso
-實 jwjc
-對 tgdi
-小 nc
-就 yfiku
-年 oq
-後 hovie
-得 hoami
-心 p
-快 pdk
-性 phqm
-情 pqmb
-想 dup
-意 ytap
-愛 bbpe
-成 ihs
-我 hqi
-所 hshml
-探 qbcd
-政 mmok
-文 yk
-方 yhs
-於 ysoy
-日 a
-是 amyo
-時 agdi
-最 asje
-會 omwa
-有 kb
-本 dm
-此 ymp
-民 rvp
-法 egi
-淵 elxl
-濟 eyx
-為 iknf
-無 otf
-然 bkf
-現 mgbuu
-生 hqm
-用 bq
-當 fbrw
-發 nonhe
-的 hapi
-相 dbu
-看 hqbu
-種 hdhjg
-穩 hdbmp
-第 hnlh
-經 vfmvm
-網 vfbtv
-美 tgk
-者 jka
-而 mbll
-能 ibp
-脖 bjbd
-自 hbu
-與 hxhc
-英 tlbk
-著 tjka
-蕭 tlx
-行 hommn
-要 mwv
-話 yrhjr
-詹 ncymr
-說 yrcru
-起 goru
-路 rmher
-這 yymr
-過 ybbr
-那 sqnl
-都 janl
-長 smv
-間 ana
-難 toog
-靜 qbbsd
-面 mwyl
-頭 mtmbc
-題 aombc
-麵 jnmwl
-麼 icvi
-龍 ybysp
+一m
+三mmm
+上ym
+下my
+不mf
+中l
+之ino
+也pd
+了nn
+事jlln
+人o
+他opd
+以vio
+但oam
+作ohs
+你onf
+來doo
+個owjr
+們oan
+候olnk
+傳ojii
+像onao
+兒hxhu
+其tmmc
+出uu
+分csh
+到mgln
+前tbln
+十j
+去gi
+只rc
+可mnr
+和hdr
+喔rsmg
+嗎rsqf
+囉rwlg
+因wk
+國wirm
+在klg
+地gpd
+外niy
+多nini
+大k
+天mk
+她vpd
+好vnd
+如vr
+子nd
+學hbnd
+定jmyo
+家jmso
+實jwjc
+對tgdi
+小nc
+就yfiku
+年oq
+後hovie
+得hoami
+心p
+快pdk
+性phqm
+情pqmb
+想dup
+意ytap
+愛bbpe
+成ihs
+我hqi
+所hshml
+探qbcd
+政mmok
+文yk
+方yhs
+於ysoy
+日a
+是amyo
+時agdi
+最asje
+會omwa
+有kb
+本dm
+此ymp
+民rvp
+法egi
+淵elxl
+濟eyx
+為iknf
+無otf
+然bkf
+現mgbuu
+生hqm
+用bq
+當fbrw
+發nonhe
+的hapi
+相dbu
+看hqbu
+種hdhjg
+穩hdbmp
+第hnlh
+經vfmvm
+網vfbtv
+美tgk
+者jka
+而mbll
+能ibp
+脖bjbd
+自hbu
+與hxhc
+英tlbk
+著tjka
+蕭tlx
+行hommn
+要mwv
+話yrhjr
+詹ncymr
+說yrcru
+起goru
+路rmher
+這yymr
+過ybbr
+那sqnl
+都janl
+長smv
+間ana
+難toog
+靜qbbsd
+面mwyl
+頭mtmbc
+題aombc
+麵jnmwl
+麼icvi
+龍ybysp
 </pre>
 
 <script defer src="keyExercise.js"></script>
-<script>
-  function useEnglishLayout() {
-    const keys = document.querySelectorAll('#keyboardMap span[title]')
-    keys.forEach(key => key.textContent = key.title)
-  }
-</script>
+
 </body>
 </html>
