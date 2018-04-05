@@ -5,6 +5,10 @@ div#questAlphabet {
 	font-size: 4em;
 }
 
+div#questAlphabet span {
+	font-family: monospace;
+}
+
 div#questAlphabet span.questCharacter {
 	display: block;
 	float: left;
