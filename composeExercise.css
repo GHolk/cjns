@@ -28,7 +28,8 @@ h2 { text-align: center; }
 	margin: 0.1em auto 0 auto;
 	width: 50%;
 	line-height: 1.1em;
-	font-family: BiauKai STKaiti DFKai-SB KaiTi serif;
+	font-family: 教育部標準楷書, 全字庫宋體, 標楷體, Kaiu, BiauKai, STKaiti, DFKai-SB, KaiTi, serif;
+        font-weight: normal;
 }
 
 #hint {
@@ -36,7 +37,7 @@ h2 { text-align: center; }
 	font-size: 2em;
 	margin: 1ex;
 	padding: 0.3em;
-	font-weight: 700;
+	font-weight: bold;
 }
 
 #visual {
