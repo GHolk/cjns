@@ -1,63 +1,50 @@
 
-Element.prototype.doClass = function(command){
-	var operator = command.charAt(0), 
+function changeClass(node, command) {
+	var operator = command.charAt(0),
 		newClass = command.slice(1),
-		oldClass = (this.className || '').split(' ') ;
+		oldClass = (node.className || '').split(' ');
 
-	if (operator == '+'){
+	if (operator == '+') {
 		oldClass.push(newClass);
-		this.className = oldClass.join(' ');
-
-	} else if (operator == '-') {
-		/*
-		var deClass = new RegExp(' '+newClass+' ','g');
-
-		do oldClass = (' ' + oldClass + ' ').replace(deClass, ' ');
-		while (deClass.test(oldClass))
-		*/
-
+		node.className = oldClass.join(' ');
+	}
+	else if (operator == '-') {
 		do oldClass.splice( oldClass.indexOf(newClass), 1 );
 		while (oldClass.indexOf(newClass) != -1)
-		this.className = oldClass.join(' ');
+		node.className = oldClass.join(' ');
+	}
+	else node.className = command;
+}
 
-		//this.className = oldClass.slice(1,-1);
-	} else
-		this.className = command;
-
-};
-
-
-var keyboard = (function (keyboard){
+var keyboard = (function (){
+	var keyboard = document.getElementById('keyboardMap');
 
 	var key = {};
 
 	var mapper = { ' ': ' ' };
 
-	for(var i=0; i<3; i++){
-
+	for (var i=0; i<3; i++) {
 		var row = keyboard.children[i].children;
 
-		for(var j=0, l=row.length; j<l; j++){
+		for (var j=0, l=row.length; j<l; j++) {
 			var alphabet = row[j].title;
 			key[alphabet]  =  row[j];
 			mapper[alphabet] = row[j].textContent;
 		}
 	}
 
-	function press (keyName){
-
-		setTimeout( 
-			function(){ key[key.press].doClass("-press"); },
+	function press(keyName) {
+		setTimeout(
+			function(){ changeClass(key[keyName], "-press"); },
 			150
 		);
 
-		key[keyName].doClass("+press");
-		key.press = keyName;
+		changeClass(key[keyName], "+press");
 	}
 
-	function hint(keyName){
-		key.hint && key[key.hint].doClass("-hint");
-		key[keyName].doClass("+hint");
+	function hint(keyName) {
+		key.hint && changeClass(key[key.hint], "-hint");
+		changeClass(key[keyName], "+hint");
 		key.hint = keyName;
 	}
 
@@ -67,114 +54,88 @@ var keyboard = (function (keyboard){
 		'mapper': mapper,
 		'key': key
 	};
+})();
 
-})( document.getElementById('keyboardMap') );
-
-
-
-
-questCheck = (function(characterTable){
-
+var questCheck = (function() {
+	var characterTable =  document.getElementById("character");
 	var characterArray = characterTable.textContent.split('\n');
-
 	var questBar = document.getElementById('questAlphabet').children,
 		nowCharacter;
 
-	/*
-	var questBar = [
-		document.getElementById('questAlphabet').children[0].children,
-		document.getElementById('questAlphabet').children[1].children
-	];
-	*/
-
-	function compare(string){
-		for(var i=0, l=nowCharacter.length; i<l; i++)
-			if(string.charAt(i) !== nowCharacter.charAt(i)) return i;
-
+	function compare(string) {
+		for (var i=0, l=nowCharacter.length; i<l; i++) {
+			if (string.charAt(i) !== nowCharacter.charAt(i)) break;
+		}
 		return i;
 	}
 
-	function indicate(index, wrong){
+	function indicate(index, wrong) {
 		var l = nowCharacter.length;
+		for (var i=0; i<index; i++) {
+			changeClass(questBar[i+1], "right");
+		}
 
-		for(var i=0; i<index; i++)
-			questBar[i+1].doClass("right");
+		var hintCharIndex = i;
+		for (; i<wrong; i++) changeClass(questBar[i+1], "wrong");
+		changeClass(questBar[++i], "cursor");
 
-		hintCharIndex = i;
-
-		for(; i<wrong; i++)
-			questBar[i+1].doClass("wrong");
-
-		questBar[++i].doClass("cursor");
-
-		for(; i<l; i++)
-			questBar[i+1].doClass("");
-
+		for (; i<l; i++) changeClass(questBar[i+1], "");
 		return hintCharIndex;
 	}
 
-	function setNewCharacter (characterString){
+	function setNewCharacter(characterString) {
 		nowCharacter = characterString.slice(1);
-
 		questBar[0].textContent = characterString.charAt(0);
+		for (var i=1, l=questBar.length; i<l; i++) {
+			questBar[i].textContent = keyboard.mapper[
+				characterString.charAt(i) || ' '
+			];
 
-		for(var i=1, l=questBar.length; i<l; i++){
-			questBar[i].textContent = 
-				keyboard.mapper[ characterString.charAt(i) || ' ' ];
-
-			questBar[i].doClass("");
+			changeClass(questBar[i], "");
 		}
 	}
 
-	setNewCharacter( characterArray[ 
+	setNewCharacter( characterArray[
 		Math.floor( Math.random() * (characterArray.length-2) ) + 1
-	] );
+	]);
 
-	function check(string){
+	function check(string) {
 		var index = compare(string);
 
-		if(index >= nowCharacter.length){
-			setNewCharacter( characterArray[ 
-				Math.floor( Math.random() * (characterArray.length-2) ) + 1
-			] );
+		if (index >= nowCharacter.length){
+			setNewCharacter( characterArray[Math.floor(
+				Math.random() * (characterArray.length-2)
+			) + 1]);
 			index = -1;
 			string = '';
 		}
 
 		keyboard.hint( nowCharacter.charAt(
-			indicate(index, string.length) 
+			indicate(index, string.length)
 		));
 
 		return index == -1;
 	}
 
-/*
-	check.character = function (newNumber){
-		if(newNumber) setNewCharacter( characterArray[newNumber] );
-		return nowCharacter;
-	};
-*/
-
 	return check;
-
-})( document.getElementById("character") );
+})();
 
 document.getElementById('inputBar').oninput = function(){
 
 	var string = this.value;
-	if(/[^a-y]/.test(string)){
+	if (/[^a-y]/.test(string)) {
 		this.value = '';
 		string = '';
 	}
 
 	string && keyboard.press(string.slice(-1));
 
-	if( questCheck(string) ) this.value = '';
+	if (questCheck(string)) this.value = '';
 };
 
 document.getElementById('fontPx').children[1].onchange = function(){
 	document.body.style.fontSize = this.value + 'px';
 };
 
-inputBar.focus();
-inputBar.select();
+document.getElementById('inputBar').focus();
+document.getElementById('inputBar').select();
