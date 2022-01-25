@@ -288,8 +288,6 @@ function init() {
 		questCharacter.nextCharacter();
 	}
 	hintBar.newHintState();
-	inputBar.focus();
-	inputBar.select();
 }
 
 window.onhashchange = init;
