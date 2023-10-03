@@ -3,12 +3,12 @@
 function MapCharacterTable(characterUse) {
 	var characterArray = characterUse.textContent.split('\n');
 	var table = this.table = {};
-	var questList = this.questList = {}
-	for (var i=0, l=characterArray.length; i<l; i++) {
+	var questList = this.questList = [];
+	for (var i = characterArray.length - 1; i >= 0; --i) {
 		if (characterArray[i]) {
 			var character = characterArray[i].charAt(0), alphabet = characterArray[i].substr(1);
 			table[alphabet] = character;
-			questList[alphabet] = character;
+			questList.push([character, alphabet]);
 		}
 	}
 }
@@ -21,14 +21,9 @@ MapCharacterTable.prototype = {
 		return undefined;
 	},
 	getCharacterAndAlphabet: function (oldAlphabet) {
-		var list = this.questList;
-		list[oldAlphabet] = undefined;
-		for (var i in list) {
-			if (typeof(list[i]) == 'string' && list[i].length == 1) {
-				return [list[i], i];
-			}
-		}
-		return false;
+		var res = this.questList.pop();
+		this.table[res[1]] = res[0];
+		return res;
 	},
 	findCharacter: function (alphabet) {
 		return this.table[alphabet]
