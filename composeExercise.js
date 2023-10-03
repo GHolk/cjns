@@ -265,6 +265,7 @@ inputBar.oninput = function(){
 	if (allAlphabet.substr(-1) === '\n') {
 		if (respondWindow.say(allAlphabet)) respondRobot.chatBack();
 		this.value = '';
+		visualBar.node.textContent = '_';
 	}
 	else if (allAlphabet.charAt(0) == ':') ;
 	else if (allAlphabet.substr(-1) === ' ') {
