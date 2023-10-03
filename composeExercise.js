@@ -3,9 +3,12 @@
 function MapCharacterTable(characterUse) {
 	var characterArray = characterUse.textContent.split('\n');
 	var table = this.table = {};
-	for (var i=0, l=characterArray.length; i<l; i++) {
+	var questList = this.questList = [];
+	for (var i = characterArray.length - 1; i >= 0; --i) {
 		if (characterArray[i]) {
-			table[characterArray[i].substr(1)] = characterArray[i].charAt(0);
+			var character = characterArray[i].charAt(0), alphabet = characterArray[i].substr(1);
+			table[alphabet] = character;
+			questList.push([character, alphabet]);
 		}
 	}
 }
@@ -18,14 +21,9 @@ MapCharacterTable.prototype = {
 		return undefined;
 	},
 	getCharacterAndAlphabet: function (oldAlphabet) {
-		var table = this.table;
-		table[oldAlphabet] = undefined;
-		for (var i in table) {
-			if (typeof(table[i]) == 'string' && table[i].length == 1) {
-				return [table[i], i];
-			}
-		}
-		return false;
+		var res = this.questList.pop();
+		this.table[res[1]] = res[0];
+		return res;
 	},
 	findCharacter: function (alphabet) {
 		return this.table[alphabet]
@@ -78,27 +76,35 @@ var respondWindow = {
 var visualBar = {node: document.getElementById('visual')};
 var inputBar = document.getElementById('input');
 var questCharacter = {node: document.getElementById('quest')};
-var hintBar = {node: document.getElementById('hint')};
+var hintBar = {
+	node: document.getElementById('hint'),
+	hintState: [],
+	hideState: [],
+};
 
 hintBar.newHintState = function() {
 	var answerAlphabetLength = questCharacter.node.title.length;
-	var hintState = [];
-	for (var i=0, l=answerAlphabetLength; i<l; i++) hintState.push('＊');
+	var hintState = this.hintState = [];
+	var hideState = this.hideState = [];
+	for (var i=0, l=answerAlphabetLength; i<l; i++) {
+		hintState.push('＊');
+		hideState.push(i);
+	}
 	this.node.textContent = hintState.join(' ');
 };
 
 hintBar.hintCharacter = function(){
 
 	var answerAlphabet = questCharacter.node.title;
-	var hintState = this.node.textContent.split(' ');
+	var hintState = this.hintState;
+	var hideState = this.hideState;
 
-	if (hintState.indexOf('＊') == -1) return true;
+	if (hideState.length == 0) return true;
 
-	var hideState = [];
-	for (var i=0; i<hintState.length; i++) {
-		if (hintState[i] == '＊') hideState.push(i);
-	}
-	var newIndex = hideState[Math.floor(Math.random() * hideState.length)];
+	var hideIndex = Math.floor(Math.random() * hideState.length);
+	var newIndex = hideState[hideIndex];
+	var hideLast = hideState.pop();
+	if (hideIndex < hideState.length) hideState[hideIndex] = hideLast;
 
 	hintState[newIndex] = alphabetTable[answerAlphabet.charAt(newIndex)];
 
@@ -262,6 +268,7 @@ inputBar.oninput = function(){
 	if (allAlphabet.substr(-1) === '\n') {
 		if (respondWindow.say(allAlphabet)) respondRobot.chatBack();
 		this.value = '';
+		visualBar.node.textContent = '_';
 	}
 	else if (allAlphabet.charAt(0) == ':') ;
 	else if (allAlphabet.substr(-1) === ' ') {
