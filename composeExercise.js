@@ -76,27 +76,35 @@ var respondWindow = {
 var visualBar = {node: document.getElementById('visual')};
 var inputBar = document.getElementById('input');
 var questCharacter = {node: document.getElementById('quest')};
-var hintBar = {node: document.getElementById('hint')};
+var hintBar = {
+	node: document.getElementById('hint'),
+	hintState: [],
+	hideState: [],
+};
 
 hintBar.newHintState = function() {
 	var answerAlphabetLength = questCharacter.node.title.length;
-	var hintState = [];
-	for (var i=0, l=answerAlphabetLength; i<l; i++) hintState.push('＊');
+	var hintState = this.hintState = [];
+	var hideState = this.hideState = [];
+	for (var i=0, l=answerAlphabetLength; i<l; i++) {
+		hintState.push('＊');
+		hideState.push(i);
+	}
 	this.node.textContent = hintState.join(' ');
 };
 
 hintBar.hintCharacter = function(){
 
 	var answerAlphabet = questCharacter.node.title;
-	var hintState = this.node.textContent.split(' ');
+	var hintState = this.hintState;
+	var hideState = this.hideState;
 
-	if (hintState.indexOf('＊') == -1) return true;
+	if (hideState.length == 0) return true;
 
-	var hideState = [];
-	for (var i=0; i<hintState.length; i++) {
-		if (hintState[i] == '＊') hideState.push(i);
-	}
-	var newIndex = hideState[Math.floor(Math.random() * hideState.length)];
+	var hideIndex = Math.floor(Math.random() * hideState.length);
+	var newIndex = hideState[hideIndex];
+	var hideLast = hideState.pop();
+	if (hideIndex < hideState.length) hideState[hideIndex] = hideLast;
 
 	hintState[newIndex] = alphabetTable[answerAlphabet.charAt(newIndex)];
 
